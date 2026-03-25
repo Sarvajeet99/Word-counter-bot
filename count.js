@@ -11,7 +11,7 @@ const client = new Client({
 });
 
 // 🔧 CONFIG
-const TARGET_WORD = "nigga";
+const TARGET_WORD = "req_word";
 const DATA_FILE = "data.json";
 
 // 📦 Load data
