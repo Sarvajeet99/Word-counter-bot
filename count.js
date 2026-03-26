@@ -10,17 +10,14 @@ const client = new Client({
   ]
 });
 
-// 🔧 CONFIG
 const TARGET_WORD = "req_word";
 const DATA_FILE = "data.json";
 
-// 📦 Load data
 let data = {};
 if (fs.existsSync(DATA_FILE)) {
   data = JSON.parse(fs.readFileSync(DATA_FILE));
 }
 
-// 💾 Save data
 function saveData() {
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
 }
@@ -36,11 +33,11 @@ client.on("messageCreate", async (message) => {
   const userId = message.author.id;
   const content = message.content;
 
-  // 🧱 Initialize server + user
+  // initialize server + user
   if (!data[guildId]) data[guildId] = {};
   if (!data[guildId][userId]) data[guildId][userId] = 0;
 
-  // 🔍 Case-insensitive + exact word match
+  // case-insensitive + exact word match
   const regex = new RegExp(`\\b${TARGET_WORD}\\b`, "i");
 
   if (regex.test(content)) {
@@ -48,19 +45,19 @@ client.on("messageCreate", async (message) => {
     saveData();
   }
 
-  // 👤 My Count
+  // my Count
   if (content.toLowerCase() === "!mycount") {
     const count = data[guildId][userId] || 0;
     return message.reply(`You said "${TARGET_WORD}" ${count} times`);
   }
 
-  // 📊 Total Count
+  // total Count
   if (content.toLowerCase() === "!count") {
     const total = Object.values(data[guildId]).reduce((a, b) => a + b, 0);
     return message.reply(`Total "${TARGET_WORD}" count: ${total}`);
   }
 
-  // 🏆 Leaderboard (NO PINGS)
+  // Leaderboard 
   if (content.toLowerCase() === "!top") {
     const sorted = Object.entries(data[guildId])
       .sort((a, b) => b[1] - a[1])
@@ -92,5 +89,4 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-// 🔐 LOGIN
 client.login(process.env.TOKEN);
