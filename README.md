@@ -54,7 +54,15 @@ TOKEN=your_discord_bot_token_here
 
 ---
 
-### 4. Run the bot
+### 4. Set the word you want to count
+
+
+replace "req_word" by the word you want to count in index.js at line 13
+```
+const TARGET_WORD = "req_word";
+```
+
+### 5. Run the bot
 
 ```
 npm start
